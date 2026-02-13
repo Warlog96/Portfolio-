@@ -1,23 +1,21 @@
-import axios from 'axios';
+import { profileData } from '../data/profileData';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+// Simulated API delay for realism (optional, can be removed for instant load)
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const getProfile = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/profile`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching profile:', error);
-    throw error;
-  }
+  // Simulate network request
+  await delay(100); 
+  return {
+    success: true,
+    data: profileData
+  };
 };
 
-export const createOrUpdateProfile = async (profileData) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/profile`, profileData);
-    return response.data;
-  } catch (error) {
-    console.error('Error updating profile:', error);
-    throw error;
-  }
+export const createOrUpdateProfile = async (data) => {
+  console.log('Static mode: Profile update simulation', data);
+  return {
+    success: true,
+    data: { ...profileData, ...data }
+  };
 };
