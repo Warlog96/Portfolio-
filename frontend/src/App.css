@@ -1,0 +1,8 @@
+.App {
+    min-height: 100vh;
+    background: var(--bg-darker);
+}
+
+.home {
+    width: 100%;
+}
