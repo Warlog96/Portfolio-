@@ -29,9 +29,9 @@
 
 /* 3D Tilt Effect Container */
 .hero-layout {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns: minmax(300px, 400px) 1fr;
+    align-items: start;
     justify-content: center;
     gap: 4rem;
     padding: 0 4rem;
