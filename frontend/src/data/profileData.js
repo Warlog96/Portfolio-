@@ -97,13 +97,7 @@ export const profileData = {
       link: '',
       github: ''
     },
-    {
-      title: 'Netflix Clone',
-      description: 'A responsive Netflix clone with movie trailers, dynamic content updates, and user-friendly interface using React and TMDB API.',
-      technologies: ['React', 'TMDB API', 'CSS', 'Firebase'],
-      link: '',
-      github: ''
-    }
+
   ],
   achievements: [
     '7th Rank – IIT Bombay International Regatta Competition (2024)',
