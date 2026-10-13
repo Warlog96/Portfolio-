@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Suspense, lazy, useEffect, useRef } from 'react';
 import Home from './pages/Home';
-import Scene3D from './components/Scene3D';
 import './App.css';
+
+const Scene3D = lazy(() => import('./components/Scene3D'));
 
 function App() {
     const cursorRef = useRef(null);
@@ -15,45 +16,21 @@ function App() {
             cursor.style.top = e.clientY + 'px';
         };
 
-        const handleMouseEnter = () => {
-            cursor.classList.add('hover');
-        };
-
-        const handleMouseLeave = () => {
-            cursor.classList.remove('hover');
+        // Delegate from the document so elements rendered after the profile
+        // loads (skill tags, project cards) also get the hover effect
+        const handleMouseOver = (e) => {
+            const target = e.target instanceof Element ? e.target : null;
+            cursor.classList.toggle('hover', !!target?.closest('a, button, .skill-tag, .project-card'));
+            // Hide custom cursor on form elements
+            cursor.classList.toggle('hidden', !!target?.closest('input, textarea, select, label'));
         };
 
         window.addEventListener('mousemove', moveCursor);
-
-        // Add hover effect to interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, .skill-tag, .project-card');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', handleMouseEnter);
-            el.addEventListener('mouseleave', handleMouseLeave);
-        });
-
-        // Hide custom cursor on form elements
-        const formElements = document.querySelectorAll('input, textarea, select, label');
-        const handleFormEnter = () => cursor.classList.add('hidden');
-        const handleFormLeave = () => cursor.classList.remove('hidden');
-
-        formElements.forEach(el => {
-            el.addEventListener('mouseenter', handleFormEnter);
-            el.addEventListener('mouseleave', handleFormLeave);
-        });
+        document.addEventListener('mouseover', handleMouseOver);
 
         return () => {
             window.removeEventListener('mousemove', moveCursor);
-
-            interactiveElements.forEach(el => {
-                el.removeEventListener('mouseenter', handleMouseEnter);
-                el.removeEventListener('mouseleave', handleMouseLeave);
-            });
-
-            formElements.forEach(el => {
-                el.removeEventListener('mouseenter', handleFormEnter);
-                el.removeEventListener('mouseleave', handleFormLeave);
-            });
+            document.removeEventListener('mouseover', handleMouseOver);
         };
     }, []);
 
@@ -62,7 +39,9 @@ function App() {
             <div className="custom-cursor" ref={cursorRef}></div>
 
             {/* F1 Car - Highlighted on one side */}
-            <Scene3D />
+            <Suspense fallback={null}>
+                <Scene3D />
+            </Suspense>
 
             {/* No background effects - clean, minimal */}
 

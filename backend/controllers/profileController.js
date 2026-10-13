@@ -32,7 +32,14 @@ export const getProfile = async (req, res) => {
 // @access  Public (In production, this should be protected)
 export const createOrUpdateProfile = async (req, res) => {
   try {
-    const { name, role, about, skills, projects, email } = req.body;
+    const {
+      name, role, about, skills, projects, email,
+      experience, education, achievements, patents, workshops, languages
+    } = req.body;
+    const fields = {
+      name, role, about, skills, projects, email,
+      experience, education, achievements, patents, workshops, languages
+    };
 
     // Check if profile exists
     let profile = await Profile.findOne();
@@ -41,19 +48,12 @@ export const createOrUpdateProfile = async (req, res) => {
       // Update existing profile
       profile = await Profile.findOneAndUpdate(
         {},
-        { name, role, about, skills, projects, email },
+        fields,
         { new: true, runValidators: true }
       );
     } else {
       // Create new profile
-      profile = await Profile.create({
-        name,
-        role,
-        about,
-        skills,
-        projects,
-        email
-      });
+      profile = await Profile.create(fields);
     }
 
     res.status(200).json({

@@ -95,6 +95,10 @@
     width: 100%;
 }
 
+.brand-short {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .navbar-container {
         padding: 0 1rem;
@@ -110,5 +114,18 @@
 
     .navbar-brand h2 {
         font-size: 1rem;
+    }
+}
+@media (max-width: 520px) {
+    .brand-full {
+        display: none;
+    }
+
+    .brand-short {
+        display: inline;
+    }
+
+    .navbar-menu {
+        gap: 1rem;
     }
 }

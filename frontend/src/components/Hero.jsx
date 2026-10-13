@@ -4,7 +4,6 @@ import './Hero.css';
 const Hero = ({ profile, loading }) => {
     const [isVisible, setIsVisible] = useState(false);
     const heroRef = useRef(null);
-    const [scrollY, setScrollY] = useState(0);
 
     useEffect(() => {
         // Intersection Observer for fade-in animation
@@ -21,20 +20,8 @@ const Hero = ({ profile, loading }) => {
             observer.observe(heroRef.current);
         }
 
-        // Parallax scroll effect
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            if (heroRef.current) {
-                observer.unobserve(heroRef.current);
-            }
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+        return () => observer.disconnect();
+    }, [loading]);
     if (loading) {
         return (
             <section id="hero" className="hero">

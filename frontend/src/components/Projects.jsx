@@ -11,8 +11,8 @@ const Projects = ({ projects, loading }) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         const index = cardsRef.current.indexOf(entry.target);
-                        if (index !== -1 && !visibleCards.includes(index)) {
-                            setVisibleCards(prev => [...prev, index]);
+                        if (index !== -1) {
+                            setVisibleCards(prev => prev.includes(index) ? prev : [...prev, index]);
                         }
                     }
                 });
